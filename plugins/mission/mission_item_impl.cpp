@@ -15,9 +15,20 @@ void MissionItemImpl::set_position(double latitude_deg, double longitude_deg)
     _longitude_deg = longitude_deg;
 }
 
+void MissionItemImpl::set_position_local(float x, float y, float z){
+    _x_m = x;
+    _y_m = y;
+    _z_m = z;
+    _frame = MAV_FRAME_LOCAL_NED;
+}
+
 void MissionItemImpl::set_relative_altitude(float relative_altitude_m)
 {
     _relative_altitude_m = relative_altitude_m;
+}
+
+void MissionItemImpl::set_frame(MAV_FRAME frame){
+    _frame = frame;
 }
 
 void MissionItemImpl::set_speed(float speed_m_s)
@@ -57,7 +68,7 @@ void MissionItemImpl::set_camera_photo_interval(double interval_s)
 
 MAV_FRAME MissionItemImpl::get_mavlink_frame() const
 {
-    return MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
+    return _frame;
 }
 
 MAV_CMD MissionItemImpl::get_mavlink_cmd() const

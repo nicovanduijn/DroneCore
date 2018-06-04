@@ -3,6 +3,7 @@
 #include <memory>
 #include <ostream>
 #include <string>
+#include "mavlink_include.h" // this seems to not be linked properly
 
 namespace dronecore {
 
@@ -29,7 +30,7 @@ public:
     ~MissionItem();
 
     /**
-     * @brief Set the position of a mission item.
+     * @brief Set the position of a mission item in global frame.
      *
      * @param latitude_deg Latitude of the waypoint in degrees.
      * @param longitude_deg Longitude of the waypoint in degrees.
@@ -37,11 +38,27 @@ public:
     void set_position(double latitude_deg, double longitude_deg);
 
     /**
+    * @brief Set the position of a mission item in local NED frame
+    *
+    * @param x x-coordinate in local NED frame in meters
+    * @param y y-coordinate in local NED frame in meters
+    * @param z z-coordinate in local NED frame in meters
+    */
+    void set_position_local(float x, float y, float z);
+
+    /**
      * @brief Set the relative altitude of a mission item.
      *
      * @param altitude_m Altitude relative to takeoff position in metres.
      */
     void set_relative_altitude(float altitude_m);
+
+    /**
+    * @brief Set the frame for the mission item
+    * 
+    * @param frame The frame in which the waypoint is defined
+    */
+    void set_frame(MAV_FRAME frame);
 
     /**
      * @brief Set the fly-through property of a mission item.

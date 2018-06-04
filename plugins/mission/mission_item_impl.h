@@ -11,7 +11,9 @@ public:
     ~MissionItemImpl();
 
     void set_position(double latitude_deg, double longitude_deg);
+    void set_position_local(float x, float y, float z);
     void set_relative_altitude(float relative_altitude_m);
+    void set_frame(MAV_FRAME frame);
     void set_speed(float speed_m_s);
     void set_fly_through(bool fly_through);
     void set_gimbal_pitch_and_yaw(float pitch_deg, float yaw_deg);
@@ -46,6 +48,10 @@ private:
     double _latitude_deg = double(NAN);
     double _longitude_deg = double(NAN);
     float _relative_altitude_m = NAN;
+    float _x_m = NAN;
+    float _y_m = NAN;
+    float _z_m = NAN;
+    MAV_FRAME _frame = MAV_FRAME_GLOBAL_RELATIVE_ALT_INT;
     float _speed_m_s = NAN;
     bool _fly_through = false;
     float _gimbal_pitch_deg = NAN;

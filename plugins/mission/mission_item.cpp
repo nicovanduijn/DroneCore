@@ -17,9 +17,17 @@ void MissionItem::set_position(double latitude_deg, double longitude_deg)
     _impl->set_position(latitude_deg, longitude_deg);
 }
 
+void MissionItem::set_position_local(float x, float y, float z){
+    _impl->set_position_local(x, y, z);
+}
+
 void MissionItem::set_relative_altitude(float relative_altitude_m)
 {
     _impl->set_relative_altitude(relative_altitude_m);
+}
+
+void MissionItem::set_frame(MAV_FRAME frame){
+    _impl->set_frame(frame);
 }
 
 void MissionItem::set_speed(float speed_m_s)

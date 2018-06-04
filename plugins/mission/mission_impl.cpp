@@ -685,8 +685,9 @@ void MissionImpl::assemble_mission_items()
         for (auto &it : _mission_data.mavlink_mission_items_downloaded) {
             LogDebug() << "Assembling Message: " << int(it->seq);
 
-            if (it->command == MAV_CMD_NAV_WAYPOINT) {
-                if (it->frame != MAV_FRAME_GLOBAL_RELATIVE_ALT_INT) {
+            if (it->command == MAV_CMD_NAV_WAYPOINT){              
+                if (it->frame != MAV_FRAME_GLOBAL_RELATIVE_ALT_INT &&
+                    it->frame != MAV_FRAME_LOCAL_NED) {
                     LogErr() << "Waypoint frame not supported unsupported";
                     result = Mission::Result::UNSUPPORTED;
                     break;
@@ -699,8 +700,13 @@ void MissionImpl::assemble_mission_items()
                     have_set_position = false;
                 }
 
-                new_mission_item->set_position(double(it->x) * 1e-7, double(it->y) * 1e-7);
-                new_mission_item->set_relative_altitude(it->z);
+                if(it->frame == MAV_FRAME_GLOBAL_RELATIVE_ALT_INT){
+                    new_mission_item->set_position(double(it->x) * 1e-7, double(it->y) * 1e-7);
+                    new_mission_item->set_relative_altitude(it->z);
+                } else {
+                    new_mission_item->set_position_local(float(it->x), float(it->y), float(it->z));  
+                }
+
 
                 new_mission_item->set_fly_through(!(it->param1 > 0));
 
